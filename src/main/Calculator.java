@@ -16,22 +16,12 @@ public class Calculator {
         unitsMapping.put("km", 6);
     }
 
-    public int getValue(String s) {
-        int t = 100;
-        for (String i : unitsMapping.keySet()) {
-            if (i.equals(s)) {
-                t = unitsMapping.get(i);
-            }
-        }
-        return t;
-    }
-
     public Double convertUnit(double number, String fromUnit, String toUnit) {
         return number * Math.pow(10, (double) (unitsMapping.get(fromUnit) - unitsMapping.get(toUnit)));
     }
 
 
-    public String calculate(String ex) {
+    public String calculate(String ex, String lowest) {
         Double tmp = 0.0;
 
         //we check if the expression contains only valid operands
@@ -40,15 +30,6 @@ public class Calculator {
             //exemple: string "18 cm + 5 mm" will result into an array of substrings {"18", "cm", "+", "5", "mm"}
             String[] s = ex.split(" ");
 
-            //we search for the lowest unit by testing the sub-strings
-            //lowest is the unit of measurment for the firs number
-            String lowest = s[1];
-            for (int i = 1; i < s.length; i++) {
-                if (s[i].equals("mm") || s[i].equals("cm") || s[i].equals("dm") || s[i].equals("m") || s[i].equals("km")) {
-                    if (getValue(s[i]) < getValue(lowest))
-                        lowest = s[i];
-                }
-            }
             //find next operand and keep the result of its operators in "tmp" = temporary result
             //tmp will be the left operator in the operation;
             //we initialize tmp with the first from the string
